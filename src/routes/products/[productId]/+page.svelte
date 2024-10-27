@@ -6,3 +6,4 @@
 
 
 <p>dynamic page {productId} </p>
+<p><a href={`${productId}/reviews`}>go to review page</a></p>
