@@ -20,6 +20,11 @@
     let editedEmail = '';
     let editedPhone = '';
 
+    // Error states for edited inputs
+    let editedNameError = false;
+    let editedEmailError = false;
+    let editedPhoneError = false;
+
     // Validate and add a new personal information todo
     function addTodo() {
         if (validateInputs()) {
@@ -37,8 +42,31 @@
         emailError = !email.trim();
         phoneError = !phone.trim();
 
-        // Return true if all fields are valid, otherwise false
-        return !(nameError || emailError || phoneError);
+        return !(nameError || emailError || phoneError); // Return true if valid
+    }
+
+    // Validate edited input fields and set error flags
+    function validateEditedInputs() {
+        editedNameError = !editedName.trim();
+        editedEmailError = !editedEmail.trim();
+        editedPhoneError = !editedPhone.trim();
+
+        return !(editedNameError || editedEmailError || editedPhoneError); // Return true if valid
+    }
+
+    // Save the edited personal information todo
+    function saveTodo() {
+        if (validateEditedInputs()) {
+            todos.update(currentTodos =>
+                currentTodos.map(todo =>
+                    todo.id === editingId
+                        ? { ...todo, name: editedName, email: editedEmail, phone: editedPhone }
+                        : todo
+                )
+            );
+            editingId = null; // Exit edit mode
+            resetInputs();
+        }
     }
 
     // Delete a personal information todo
@@ -54,47 +82,25 @@
         editedPhone = todo.phone;
     }
 
-    // Save the edited personal information todo
-    function saveTodo() {
-        if (validateEditedInputs()) {
-            todos.update(currentTodos =>
-                currentTodos.map(todo =>
-                    todo.id === editingId
-                        ? { ...todo, name: editedName, email: editedEmail, phone: editedPhone }
-                        : todo
-                )
-            );
-            editingId = null;
-            resetInputs();
-        }
-    }
-
-    // Validate edited inputs
-    function validateEditedInputs() {
-        return editedName.trim() && editedEmail.trim() && editedPhone.trim();
-    }
-
-    // Reset input fields and errors
+    // Reset input fields and error states
     function resetInputs() {
-        name = '';
-        email = '';
-        phone = '';
-        nameError = false;
-        emailError = false;
-        phoneError = false;
+        name = email = phone = '';
+        nameError = emailError = phoneError = false;
+
+        editedName = editedEmail = editedPhone = '';
+        editedNameError = editedEmailError = editedPhoneError = false;
     }
 </script>
 
 <h1 class="text-4xl font-bold text-center my-8">Personal Info Todo App</h1>
 
 <div class="max-w-lg mx-auto bg-white shadow-md p-6 rounded-lg">
-    <!-- Input Fields -->
     <div class="space-y-4 mb-4">
         <div>
-            <input
-                type="text"
-                placeholder="Name"
-                bind:value={name}
+            <input 
+                type="text" 
+                placeholder="Name" 
+                bind:value={name} 
                 class={`w-full border p-2 rounded ${nameError ? 'border-red-500' : ''}`}
             />
             {#if nameError}
@@ -102,10 +108,10 @@
             {/if}
         </div>
         <div>
-            <input
-                type="email"
-                placeholder="Email"
-                bind:value={email}
+            <input 
+                type="email" 
+                placeholder="Email" 
+                bind:value={email} 
                 class={`w-full border p-2 rounded ${emailError ? 'border-red-500' : ''}`}
             />
             {#if emailError}
@@ -113,10 +119,10 @@
             {/if}
         </div>
         <div>
-            <input
-                type="tel"
-                placeholder="Phone"
-                bind:value={phone}
+            <input 
+                type="tel" 
+                placeholder="Phone" 
+                bind:value={phone} 
                 class={`w-full border p-2 rounded ${phoneError ? 'border-red-500' : ''}`}
             />
             {#if phoneError}
@@ -124,35 +130,43 @@
             {/if}
         </div>
     </div>
-    <button
-        on:click={addTodo}
+    <button 
+        on:click={addTodo} 
         class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
     >
         Add
     </button>
 
-    <!-- Personal Information List -->
     <ul class="mt-4 space-y-2">
         {#each $todos as todo (todo.id)}
             <li class="p-4 border rounded-md flex flex-col gap-2">
                 {#if editingId === todo.id}
-                    <input
-                        type="text"
-                        bind:value={editedName}
-                        class="w-full border p-2 rounded"
+                    <input 
+                        type="text" 
+                        bind:value={editedName} 
+                        class={`w-full border p-2 rounded ${editedNameError ? 'border-red-500' : ''}`}
                     />
-                    <input
-                        type="email"
-                        bind:value={editedEmail}
-                        class="w-full border p-2 rounded"
+                    {#if editedNameError}
+                        <p class="text-red-500 text-sm mt-1">Name is required.</p>
+                    {/if}
+                    <input 
+                        type="email" 
+                        bind:value={editedEmail} 
+                        class={`w-full border p-2 rounded ${editedEmailError ? 'border-red-500' : ''}`}
                     />
-                    <input
-                        type="tel"
-                        bind:value={editedPhone}
-                        class="w-full border p-2 rounded"
+                    {#if editedEmailError}
+                        <p class="text-red-500 text-sm mt-1">Email is required.</p>
+                    {/if}
+                    <input 
+                        type="tel" 
+                        bind:value={editedPhone} 
+                        class={`w-full border p-2 rounded ${editedPhoneError ? 'border-red-500' : ''}`}
                     />
-                    <button
-                        on:click={saveTodo}
+                    {#if editedPhoneError}
+                        <p class="text-red-500 text-sm mt-1">Phone is required.</p>
+                    {/if}
+                    <button 
+                        on:click={saveTodo} 
                         class="bg-green-500 text-white p-2 rounded hover:bg-green-600"
                     >
                         Save
@@ -162,14 +176,14 @@
                     <p><strong>Email:</strong> {todo.email}</p>
                     <p><strong>Phone:</strong> {todo.phone}</p>
                     <div class="flex gap-2">
-                        <button
-                            on:click={() => editTodo(todo)}
+                        <button 
+                            on:click={() => editTodo(todo)} 
                             class="bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600"
                         >
                             Edit
                         </button>
-                        <button
-                            on:click={() => deleteTodo(todo.id)}
+                        <button 
+                            on:click={() => deleteTodo(todo.id)} 
                             class="bg-red-500 text-white p-2 rounded hover:bg-red-600"
                         >
                             Delete
