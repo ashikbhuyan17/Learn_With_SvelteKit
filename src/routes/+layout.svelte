@@ -1,7 +1,15 @@
 <script>
     import "../styles/app.css";
+    import { cart } from '$lib/stores/cartStore';
+    console.log("🚀 ~ cart:", $cart)
+  
+  // Reactive variable to count total items in the cart
+  $: console.log('🚀 ~ Cart updated:', $cart);
+  $: cartItemCount = $cart.reduce((count, item) => count + item.quantity, 0);
   </script>
  <div class="space-y-4">
+  <h1>My Shop</h1>
+  <p>Cart Items: {cartItemCount}</p>
  <section class="flex justify-center items-center h-[100px]">
   <nav class=" space-x-10">
     <a href="/">Home</a>
