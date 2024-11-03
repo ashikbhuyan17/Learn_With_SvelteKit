@@ -4,6 +4,9 @@
     console.log("🚀 ~ cart:", $cart)
   
   // Reactive variable to count total items in the cart
+  // Here, the $: syntax indicates a reactive statement in Svelte.
+  // Whenever the value of $cart changes, this line will automatically execute, 
+
   $: console.log('🚀 ~ Cart updated:', $cart);
   $: cartItemCount = $cart.reduce((count, item) => count + item.quantity, 0);
   </script>
@@ -13,6 +16,7 @@
  <section class="flex justify-center items-center h-[100px]">
   <nav class=" space-x-10">
     <a href="/">Home</a>
+    <a href="/Runes">Runes</a>
     <a href="/about">About</a>
     <a href="/products">products</a>
     <a href="/todoApp">todo</a>
