@@ -16,6 +16,7 @@
  <section class="flex justify-center items-center h-[100px]">
   <nav class=" space-x-10">
     <a href="/">Home</a>
+    <a href="/filter/fllterSort">filter/fllterSort</a>
     <a href="/Runes">Runes</a>
     <a href="/about">About</a>
     <a href="/products">products</a>
