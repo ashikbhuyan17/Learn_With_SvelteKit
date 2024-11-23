@@ -19,7 +19,7 @@
  <h1>Parent Component</h1>  
  <p>Data from Parent: {parentData}</p> 
  <!-- Pass prop to Child and listen for updates -->  
-<ChildPass data={parentData} count={count} on:update={handleChildUpdate} />  
+<ChildPass data={parentData} count={count} on:update={handleChildUpdate}  />  
 
 
   <!-- <Child name="Svelte" age={3} adjective={"adjective"}  /> -->

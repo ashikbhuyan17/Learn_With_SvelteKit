@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
     let count = 0;
 
     function increment() {
@@ -10,15 +10,27 @@
     }
 </script>
 
-<!-- Increment Button -->
 <button on:click={increment}>Increment</button>
 
-<!-- Decrement Button: Disabled if count is 0 -->
 <button on:click={decrement} disabled={count === 0}>Decrement</button>
 
-<p>The count is: {count}</p>
+<p>The count is: {count}</p> -->
 
 <!-- {#key count}
     <p>The count is: {count}</p>
 {/key} -->
 
+<script>  
+    let count = 0;  
+    let doubleCount;  
+
+    // Reactive declaration  
+    // $: doubleCount = count * 2;  
+</script>  
+
+<button on:click={() => count++} class='bg-red-300 p-2 rounded-md' >  
+    Increment Count  
+</button>  
+
+<p>Count: {count}</p>  
+<p>Double Count: {doubleCount}</p>  

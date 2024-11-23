@@ -1,12 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%sveltekit.assets%/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    %sveltekit.head%
+  </head>
+  <!-- 
+	data-sveltekit-preload-data="hover" এট্রিবিউটটি SvelteKit-এর সাথে সংযুক্ত, যা একটি লিঙ্কের উপরে মাউস নিয়ে গেলে ডেটা প্রিলোড করতে ব্যবহৃত হয়। 
+	এর মানে হল, যখন ব্যবহারকারী লিঙ্কটির উপরে হোভার করেন, তখন সেই লিঙ্কের সাথে সম্পর্কিত লোড ফাংশনটি চালানো হবে, ফলে প্রয়োজনীয় ডেটা আগে থেকেই আনা হবে।
+
+	এটি একটি সুবিধা হতে পারে, কারণ ব্যবহাকারীর ক্লিক করার আগে ডেটা ইতিমধ্যে লোড হয়ে যাবে। তবে, এটি অপ্রত্যাশিত আচরণও ঘটাতে পারে, যেমন ব্যবহারকারী যদি 
+	লিঙ্কে ক্লিক না করে এবং নেটওয়ার্ক অ্যাক্সেস না থাকে, তাহলে সমস্যা হতে পারে।
+	এটি আসলে লিঙ্কের জন্য ডেটা লোড করার একটি উন্নত পদ্ধতি, যা ব্যবহারকারীর অভিজ্ঞতা উন্নত করতে সাহায্য করে। -->
+
+  <!-- <body data-sveltekit-preload-data="hover"> -->
+
+  <body>
+    <div style="display: contents">%sveltekit.body%</div>
+  </body>
 </html>

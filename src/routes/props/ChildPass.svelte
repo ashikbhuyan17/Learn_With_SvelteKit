@@ -24,4 +24,4 @@
 <p>Data from Child (local): {childData}</p>  
 <p>Data from count (count): {count}</p>  
 
-<button on:click={updateData} class="bg-red-300 p-2 rounded-md">Update Data and Notify Parent</button>
+<button on:click={updateData}  class="bg-red-300 p-2 rounded-md">Update Data and Notify Parent</button>
