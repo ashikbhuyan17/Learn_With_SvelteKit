@@ -1,58 +1,50 @@
 <script>
   import { writable } from 'svelte/store';
+  import { TodoServiceImpl } from './todoServices';
 
   //  Create a writable store with an initial value of 0
   // update() is a method provided by Svelte’s writable store that allows you to modify the current value of the store.
-  let todos = writable([]);
+  // let todos = writable([]);
 
-  // State for the new todo input
-  let newTodo = '';
-
-  // State to track the todo being edited
+  /**
+    todoService: টুডো লজিক পরিচালনার জন্য ক্লাসের একটি ইনস্ট্যান্স,যা দিয়ে আমরা todoService ক্লাসের সকল প্রপার্টি, মেথড ব্যবহার করতে পারবো 
+    todos: রিঅ্যাক্টিভ স্টোর, যা ইউজার ইন্টারফেসে ব্যবহৃত হয়।
+   */
+  const todoService = new TodoServiceImpl();
+  // Reactive todos store
+  const todos = todoService.todos;
+  console.log("🚀 ~ todos:", $todos) //$value refers to a writable store's subscribed value
+  
+   // Local state
+   let newTodo = '';
   let editingId = null;
   let editedText = '';
 
-  // Add a new todo
-  function addTodo() {
-    if (newTodo.trim()) {
-      todos.update((currentTodos) => [
-        ...currentTodos,
-        { id: Date.now(), text: newTodo.trim(), completed: false },
-      ]);
-      newTodo = ''; // Reset input field
-    }
+   // Add a new todo
+   function addTodo() {
+    todoService.addTodo(newTodo);
+    newTodo = ''; // Clear input
   }
 
-  // Delete a todo
-  function deleteTodo(id) {
-    // update() is a method provided by Svelte’s writable store that allows you to modify the current value of the store.
-    todos.update((currentTodos) =>
-      currentTodos.filter((todo) => todo.id !== id)
-    );
+ // Delete a todo
+ function deleteTodo(id) {
+    todoService.deleteTodo(id);
   }
 
-  // Mark a todo as completed/uncompleted
+  // Toggle completion status
   function toggleComplete(id) {
-    todos.update((currentTodos) =>
-      currentTodos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+    todoService.toggleComplete(id);
   }
 
-  // Start editing a todo
-  function editTodo(todo) {
+    // Start editing a todo
+    function editTodo(todo) {
     editingId = todo.id;
     editedText = todo.text;
   }
 
-  // Save the edited todo
+    // Save the edited todo
   function saveTodo() {
-    todos.update((currentTodos) =>
-      currentTodos.map((todo) =>
-        todo.id === editingId ? { ...todo, text: editedText } : todo
-      )
-    );
+    todoService.editTodo(editingId, editedText);
     editingId = null;
     editedText = '';
   }
